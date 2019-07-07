@@ -121,21 +121,49 @@ open class LinearProgressBar: UIView {
         
         self.progressBarIndicator.frame = CGRect(origin: CGPoint(x: 0, y :0), size: CGSize(width: 0, height: heightForLinearBar))
         
-        UIView.animateKeyframes(withDuration: 1.0, delay: 0, options: [], animations: {
-            
-            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5, animations: {
-                self.progressBarIndicator.frame = CGRect(x: 0, y: 0, width: self.widthForLinearBar*0.7, height: self.heightForLinearBar)
-            })
-            
-            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.5, animations: {
-                self.progressBarIndicator.frame = CGRect(x: superview.frame.width, y: 0, width: 0, height: self.heightForLinearBar)
-                
-            })
-            
-        }) { (completed) in
-            if (self.isAnimationRunning){
-                self.configureAnimation()
+        // ERROR CODE
+        
+//        UIView.animateKeyframes(withDuration: 1.0, delay: 0, options: [], animations: {
+//
+//            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5, animations: {
+//                self.progressBarIndicator.frame = CGRect(x: 0, y: 0, width: self.widthForLinearBar*0.7, height: self.heightForLinearBar)
+//            })
+//
+//            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.5, animations: {
+//                self.progressBarIndicator.frame = CGRect(x: superview.frame.width, y: 0, width: 0, height: self.heightForLinearBar)
+//
+//            })
+//
+//        }) { (completed) in
+//            if (self.isAnimationRunning){
+//                self.configureAnimation()
+//            }
+//        }
+        
+        // FIXED CODE
+        
+        self.progressBarIndicator.frame = CGRect(origin: CGPoint(x: 0, y :0), size: CGSize(width: 0, height: heightForLinearBar))
+        
+        do {
+            UIView.animateKeyframes(withDuration: 1.0, delay: 0, options: [], animations: {
+                UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5, animations: {
+                    self.progressBarIndicator.frame = CGRect(x: 0, y: 0, width: self.widthForLinearBar*0.7, height: self.heightForLinearBar)
+                })
+                UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.5, animations: {
+                    // Add a comment to this line
+                    
+                    self.progressBarIndicator.frame = CGRect(x: superview.frame.width, y: 0, width: 0, height: self.heightForLinearBar)
+                })
+            }) { (completed) in
+                if self.isHidden {
+                    return
+                }
+                if (self.isAnimationRunning){
+                    self.configureAnimation()
+                }
             }
+        } catch {
+            print("The file could not be loaded")
         }
     }
     
